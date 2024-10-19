@@ -21,6 +21,15 @@ class PDFFormItem extends PDFFieldBase
         $label=$this->GetPropertyValue('Label');
         $value='';
 
+        $field=null;
+        if($this->entryRetriever!=null)
+            $field=$this->entryRetriever->GetFieldById($this->options->FieldId);
+        if($field!=null&&$field->Type=='Html')
+        {
+            $styles=$this->AreaGenerator->PageGenerator->documentGenerator->options->Styles;
+            $this->AreaGenerator->PageGenerator->documentGenerator->options->Styles=str_replace('.pdfField_'.$this->options->Id.' .FieldValue p','.pdfField_'.$this->options->Id.' .FieldValue',$styles);
+        }
+
         $style='standard';
         if(isset($this->options->Style))
             $style=$this->options->Style;

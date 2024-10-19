@@ -109,7 +109,7 @@ class DocumentGenerator
                  </style>';
 
         $this->AdjustStyles();
-        $html.='<style>'.$this->options->Styles.'</style>';
+
 
 
         if($this->loader->IsPR())
@@ -178,6 +178,8 @@ class DocumentGenerator
         }
 
 
+
+        $html.='<style>'.str_replace(".PDFElement{\n                border:1px solid transparent;\n             }",'', $this->options->Styles).'</style>';
         $html.="</body></html>";
         return $html;
     }

@@ -36,7 +36,7 @@ abstract class Loader extends PluginBase
 
     public function __construct($prefix,$processLoader,$rootFilePath,$config)
     {
-        parent::__construct($prefix,31,38,$rootFilePath,$config);
+        parent::__construct($prefix,31,42,$rootFilePath,$config);
         global $wpdb;
         LogManager::Initialize($this);
         $this->ProcessorLoader=$processLoader;

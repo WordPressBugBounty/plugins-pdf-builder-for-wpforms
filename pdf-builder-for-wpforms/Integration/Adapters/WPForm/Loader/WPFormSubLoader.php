@@ -117,7 +117,6 @@ class WPFormSubLoader extends Loader
             jQuery(document).ready( function($) {
 
                 jQuery('#closePluginNotice').click(function(e){
-                    debugger;
                     e.preventDefault();
                     $.post( ajaxurl, {
                         action: 'pdf_builder_dont_show_again_notice',

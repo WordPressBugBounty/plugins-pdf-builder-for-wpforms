@@ -60,7 +60,7 @@ class HtmlEntryItem extends EntryItemBase
         $value=$this->Value;
         if($this->ExecuteShortcodes)
             $value=do_shortcode($this->Value);
-        return new RawPHPFormatter($value);
+        return new RawPHPFormatter($value,null,true);
     }
 
 

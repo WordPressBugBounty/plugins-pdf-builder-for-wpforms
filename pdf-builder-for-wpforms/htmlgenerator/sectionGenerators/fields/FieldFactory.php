@@ -15,6 +15,7 @@ use rednaoformpdfbuilder\DTO\PDFControlBaseOptions;
 use rednaoformpdfbuilder\htmlgenerator\sectionGenerators\fields\PDFTable\PDFTable;
 use rednaoformpdfbuilder\htmlgenerator\utils\Formatter;
 use rednaoformpdfbuilder\Integration\Processors\Entry\Retriever\EntryRetrieverBase;
+use rednaoformpdfbuilder\pr\htmlgenerator\sectionGenerator\fields\PDFConditionalContent;
 use rednaoformpdfbuilder\pr\htmlgenerator\sectionGenerator\fields\PDFConditionalField;
 use rednaoformpdfbuilder\pr\htmlgenerator\sectionGenerator\fields\PDFCustomField;
 use rednaoformpdfbuilder\pr\htmlgenerator\sectionGenerator\fields\PDFFigure;
@@ -77,7 +78,8 @@ class FieldFactory
                     return new PDFCustomField($loader,$areaGenerator,$field,$retriever);
                 case 'ConditionalField':
                     return new PDFConditionalField($loader,$areaGenerator,$field,$retriever);
-
+                case 'ConditionalContent':
+                    return new PDFConditionalContent($loader,$areaGenerator,$field,$retriever);
             }
         }
 

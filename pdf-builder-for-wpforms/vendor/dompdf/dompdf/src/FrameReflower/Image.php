@@ -199,7 +199,7 @@ class Image extends AbstractFrameReflower
                 $max_width = $style->length_in_pt($style->max_width, $w);
             $min_width = $style->length_in_pt($style->min_width, $w);
 
-            $max_width=374;
+            
             $min_height = $style->length_in_pt($style->min_height, $h);
             $max_height = $style->length_in_pt($style->max_height, $h);
 
