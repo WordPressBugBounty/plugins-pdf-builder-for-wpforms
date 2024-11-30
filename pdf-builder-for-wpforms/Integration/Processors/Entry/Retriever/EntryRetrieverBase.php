@@ -19,6 +19,7 @@ use rednaoformpdfbuilder\Integration\Processors\Entry\EntryProcessorBase;
 use rednaoformpdfbuilder\Integration\Processors\Settings\Forms\Fields\FieldSettingsBase;
 use rednaoformpdfbuilder\Integration\Processors\Settings\Forms\FormSettings;
 use rednaoformpdfbuilder\Integration\Processors\Settings\Forms\FieldSettingsFactoryBase;
+use rednaoformpdfbuilder\Utils\Sanitizer;
 
 abstract class EntryRetrieverBase
 {
@@ -49,16 +50,16 @@ abstract class EntryRetrieverBase
 
     public function GetRaw($id,$path='')
     {
-        if(!isset($this->Raw)||!isset($this->Raw->Fields)|| !isset($this->Raw->Fields->$id))
-            return '';
+        $splitPath=['Fields',$id];
+        if($path!='')
+            $splitPath[]=$path;
+        $result=Sanitizer::GetValueFromPath($this->Raw,$splitPath,null);
 
-        $data=$this->Raw->Fields->$id;
-        if($path=='')
-            return $data;
-        if(!isset($data->$path))
-            return '';
-
-        return $data->$path;
+        if($result===null)
+        {
+            $splitPath[0]='fields';
+            return Sanitizer::GetValueFromPath($this->Raw, $splitPath, null);
+        }
 
     }
 

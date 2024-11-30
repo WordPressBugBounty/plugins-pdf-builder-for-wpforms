@@ -3,7 +3,7 @@ Contributors: EDGARROJAS
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edseventeen%40gmail.com
 Tags: wpform, wpforms, forms, pdf, pdf builder
 Requires at least: 3.3
-Tested up to: 6.6
+Tested up to: 6.7.1
 Stable tag: 1.2.121
 License: GPLv3 or later
 Author URI: https://rednao.com/
