@@ -317,7 +317,7 @@ class WPFormEntryProcessor extends EntryProcessorBase
 
 
         $entryId=$entry['id'];
-        if(!\rednaoformpdfbuilder\Utils\Sanitizer::SanitizeBoolean(get_option($this->Loader->Prefix.'_skip_save',false)))
+        if(!\rednaoformpdfbuilder\Utils\Sanitizer::SanitizeBoolean(get_option($this->Loader->Prefix.'_skip_save',false))&&Sanitizer::GetStringValueFromPath($formData,['settings','disable_entries'])!='1')
             $entryId=$this->SaveEntryToDB($formData['id'],$serializeEntry,isset(wpforms()->process->entry_id)?wpforms()->process->entry_id:0,array('Fields'=>$fields));
 
 

@@ -9,6 +9,7 @@ use rednaoformpdfbuilder\DTO\TableControlOptions;
 use rednaoformpdfbuilder\htmlgenerator\sectionGenerators\fields\FieldFactory;
 use rednaoformpdfbuilder\htmlgenerator\sectionGenerators\fields\PDFFieldBase;
 use rednaoformpdfbuilder\htmlgenerator\tableCreator\HTMLTableCreator;
+use rednaoformpdfbuilder\Utils\Sanitizer;
 
 class PDFTable extends PDFFieldBase
 {
@@ -29,10 +30,22 @@ class PDFTable extends PDFFieldBase
 
     private function CreateRows()
     {
+        $index=0;
         foreach($this->options->TableItem->Rows as $row)
         {
-            $this->TableCreator->CreateRow();
+            $classes=[];
+            if($index==0)
+                $classes[]='first';
+            else
+                $classes[]='notfirst';
+
+            if($index==count($this->options->TableItem->Rows)-1)
+                $classes[]='last';
+            else
+                $classes[]='notlast';
+            $this->TableCreator->CreateRow(implode(' ',$classes));
             $this->CreateColumns($row);
+            $index++;
         }
     }
 
@@ -42,8 +55,23 @@ class PDFTable extends PDFFieldBase
     private function CreateColumns($row)
     {
 
+        $index=0;
         foreach($row->Columns as $column)
         {
+            $classes=[];
+            if($index==0)
+                $classes[]='first';
+            else
+                $classes[]='notfirst';
+
+            if($index==count($row->Columns)-1)
+                $classes[]='last';
+            else
+                $classes[]='notlast';
+
+            $alignment=Sanitizer::GetStringValueFromPath($column,['Alignment'],'middle');
+            if($alignment=='')
+                $alignment='middle';
             if(count($column->Fields)>0)
             {
                 $html='';
@@ -54,10 +82,11 @@ class PDFTable extends PDFFieldBase
                     $html.=$createdField->GetHTML(true);
 
                 }
-                $this->TableCreator->CreateRawColumn($html, '', 'td', array('width' => $column->Width . '%'));
+                $this->TableCreator->CreateRawColumn($html, implode(' ',$classes), 'td', array('width' => $column->Width . '%','vertical-align'=>$alignment));
             }
             else
-                $this->TableCreator->CreateTextColumn('','','td',array('width'=>$column->Width.'%'));
+                $this->TableCreator->CreateTextColumn('',implode(' ',$classes),'td',array('width'=>$column->Width.'%','vertical-align'=>$alignment));
+            $index++;
 
         }
     }

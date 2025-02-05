@@ -49,13 +49,17 @@ class FileManager
 
     public function RemoveTempFolders(){
         $path=$this->GetTempFolderRootPath();
+        $oneDayAgo = time() - 86400; // 86400 seconds in a day
+
         foreach(( glob( $path.'*' ) ? glob( $path.'*' ) : array() ) as $path)
         {
             if(!\is_dir($path))
                 continue;
-            $this->recursiveRemove($path);
 
 
+            if (filemtime($path) < $oneDayAgo) {
+                $this->recursiveRemove($path);
+            }
         }
     }
 

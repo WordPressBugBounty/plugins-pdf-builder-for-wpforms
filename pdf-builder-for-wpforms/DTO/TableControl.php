@@ -10,6 +10,7 @@ class ColumnItemOptions{
 	 /** @var PDFControlBaseOptions[] */
 	 public $Fields;
 	 public $Width;
+     public $Alignment;
 }
 
 
