@@ -828,7 +828,7 @@ if(!$rninstance->IsPR())
     <div id="AppRot" style="width:100%;height: 100%;">
         <div style="width:100%;height:100%;display: flex;text-align: center;justify-content: center;align-items: center;flex-direction: column;">
             <span style="font-size: 50px" class="fa fa-spinner fa-spin"></span>
-            <h1 style="margin:0;padding:0;">Loading important stuffs, please wait =)</h1>
+            <h1 style="margin:0;padding:0;"><?php echo __("Loading important stuffs, please wait =)","rnpdfbuilder")?></h1>
         </div>
     </div>
 
