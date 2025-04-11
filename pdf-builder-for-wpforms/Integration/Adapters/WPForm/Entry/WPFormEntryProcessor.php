@@ -104,7 +104,7 @@ class WPFormEntryProcessor extends EntryProcessorBase
             return $actions;
         }
         $license=Activator::GetLicense($this->Loader);
-        if($license->PriceType!=3)
+        if($license==null||$license->PriceType!=3)
             return $actions;
         $actions['pdfbuilder_view_pdf'] ='Bulk view pdf';
         $actions['pdfbuilder_download_pdf'] ='Bulk download';
@@ -120,7 +120,7 @@ class WPFormEntryProcessor extends EntryProcessorBase
 
 
         $license=Activator::GetLicense($this->Loader);
-        if($license->PriceType!=3)
+        if($license==null||$license->PriceType!=3)
             return;
 
 
