@@ -49,7 +49,6 @@ global $rninstance;
         <div class="productImage" style="text-align: center">
             <img src="<?php echo $rninstance->URL ?>images/adicons/automation.png"/>
         </div>
-
         <div class="PluginTitle">
             <label>Automation for WPForms</label>
             <p>Execute actions or restrictions when something happens, like when a form is submitted or updated</p>
@@ -60,17 +59,14 @@ global $rninstance;
             <li>Adding additional restrictions to the form, like rejecting it when the value of a field has been submitted x times</li>
             <li>Streamline your workflow by letting you do actions (like sending emails or updating and entry) with a click of a button. This button can be added in the entries screen, in an additional page or in an email</li>
         </ul>
-
         <div style="text-align: center">
             <a target="_blank" href="https://formwiz.rednao.com/downloads/automation-for-wpforms/">View Details</a>
         </div>
     </div>
-
     <div class="AdditionalPluginItem">
         <div class="productImage" style="text-align: center">
             <img src="<?php echo $rninstance->URL ?>images/adicons/wpform.png"/>
         </div>
-
         <div class="PluginTitle">
             <label>PDF Importer for WPForms</label>
             <p>Import a pdf file and fill it using your wpforms entries information</p>
@@ -81,7 +77,6 @@ global $rninstance;
             <li>Creating licensing/gift certificates where you already have the design and you just want to add some information</li>
             <li>Filling government generated pdfs automatically</li>
         </ul>
-
         <div style="text-align: center">
             <a target="_blank" href="https://formwiz.rednao.com/pdf-importer/">View Details</a>
         </div>
@@ -118,7 +113,7 @@ global $rninstance;
         <p style="font-weight: bold;">Useful for:</p>
         <ul>
             <li>Allow guest posting</li>
-            <li>Create several pages with the same design (recipes, instructions, documentation etc)</li>
+            <li>Create several pages with the same design (recipes, instructions, documentation etc.)</li>
         </ul>
 
         <div style="text-align: center">
