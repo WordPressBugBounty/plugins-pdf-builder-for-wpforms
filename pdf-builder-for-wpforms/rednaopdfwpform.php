@@ -5,7 +5,7 @@
  * Description: The first and only PDF drag and drop builder for WPForms
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 1.2.131
+ * Version: 1.2.133
  * Text Domain: pdf_builder
  * Domain Path: /languages/
  * Network: true
