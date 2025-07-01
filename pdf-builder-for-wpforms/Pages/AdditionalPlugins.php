@@ -102,24 +102,6 @@ global $rninstance;
         </div>
     </div>
 
-    <div class="AdditionalPluginItem">
-        <div class="productImage" style="text-align: center">
-            <img src="<?php echo $rninstance->URL ?>images/adicons/stp128.png"/>
-        </div>
-        <div class="PluginTitle">
-            <label>Gutenberg submission to post</label>
-            <p>Use gutenberg to design pages or post that are created when a form is submitted.</p>
-        </div>
-        <p style="font-weight: bold;">Useful for:</p>
-        <ul>
-            <li>Allow guest posting</li>
-            <li>Create several pages with the same design (recipes, instructions, documentation etc.)</li>
-        </ul>
-
-        <div style="text-align: center">
-            <a target="_blank" href="https://formwiz.rednao.com/downloads/gutenberg-submission-to-post/">View Details</a>
-        </div>
-    </div>
 
     <div class="AdditionalPluginItem">
         <div class="productImage" style="text-align: center">
