@@ -3,8 +3,8 @@ Contributors: EDGARROJAS
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edseventeen%40gmail.com
 Tags: wpform, wpforms, forms, pdf, pdf builder
 Requires at least: 3.3
-Tested up to: 6.8.1
-Stable tag: 1.2.134
+Tested up to: 6.9.1
+Stable tag: 1.2.138
 License: GPLv3 or later
 Author URI: https://rednao.com/
 Plugin URI: https://rednao.com/
@@ -29,7 +29,7 @@ Create your pdfs using a drag and drop builder. You can add text, summaries, tab
 
 == Style Designer ==
 
-Every element can be customzied. Change the color, size, font, etc using the style designer.
+Every element can be customized. Change the color, size, font, etc using the style designer.
 
 = Pro Version Features =
 == More fields at your disposal ==
