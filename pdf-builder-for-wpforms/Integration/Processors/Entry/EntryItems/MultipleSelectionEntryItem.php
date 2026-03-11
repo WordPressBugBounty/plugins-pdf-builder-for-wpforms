@@ -31,16 +31,18 @@ class MultipleSelectionEntryItem extends EntryItemBase
             {
                 if($currentValue=='')
                     continue;
+                $originalValue=$currentValue;
                 $currentValue=$this->GetLabel($currentValue);
                 $this->Values[]=$currentValue;
-                $this->Items[]=(new MultipleSelectionValueItem())->InitializeWithValues($currentValue,$amount);
+                $this->Items[]=(new MultipleSelectionValueItem())->InitializeWithValues($currentValue,$amount,$originalValue);
             }
         }
         else
         {
+            $originalValue=$value;
             $value=$this->GetLabel($value);
             $this->Values[] = $value;
-            $this->Items[] = (new MultipleSelectionValueItem())->InitializeWithValues($value, $amount);
+            $this->Items[] = (new MultipleSelectionValueItem())->InitializeWithValues($value, $amount,$originalValue);
         }
 
         return $this;
@@ -80,9 +82,10 @@ class MultipleSelectionEntryItem extends EntryItemBase
     }
 
     public function AddItem($value,$amount)
-    {
+    {   
+        $originalValue=$value;
         $value=$this->GetLabel($value);
-        $this->Items[]=(new MultipleSelectionValueItem())->InitializeWithValues($value,$amount);
+        $this->Items[]=(new MultipleSelectionValueItem())->InitializeWithValues($value,$amount,$originalValue);
         if($this->Values==null)
             $this->Values=[];
         $this->Values[]=$value;
@@ -137,6 +140,13 @@ class MultipleSelectionEntryItem extends EntryItemBase
 
     public function GetHtml($style='standard',$field=null)
     {
+        if($style=='value_instead_of_label')
+        {
+            $values=[];
+            foreach($this->Items as $item)
+                $values[]=$item->OriginalValue!=''?$item->OriginalValue:$item->Value;
+            return new BasicPHPFormatter(implode(', ',$values));
+        }
         return new BasicPHPFormatter(implode(', ',$this->Values));
     }
 }
@@ -144,11 +154,13 @@ class MultipleSelectionEntryItem extends EntryItemBase
 class MultipleSelectionValueItem{
     public $Value='';
     public $Amount=0;
+    public $OriginalValue='';
 
-    public function InitializeWithValues($value,$amount)
+    public function InitializeWithValues($value,$amount,$originalValue='')
     {
         $this->Value=$value;
         $this->Amount=$amount;
+        $this->OriginalValue=$originalValue;
         return $this;
 
     }
@@ -159,6 +171,8 @@ class MultipleSelectionValueItem{
             $this->Value=$CurrentItem->Value;
         if(isset($CurrentItem->Amount))
             $this->Amount=\floatval($CurrentItem->Amount);
+        if(isset($CurrentItem->OriginalValue))
+            $this->OriginalValue=$CurrentItem->OriginalValue;
         return $this;
     }
 

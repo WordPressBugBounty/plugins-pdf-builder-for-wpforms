@@ -12,7 +12,16 @@ class DropDownEntryItem extends MultipleSelectionEntryItem
 {
     public function GetHtml($style = 'standard',$field=null)
     {
-        $value=implode(', ',$this->Values);
+        if($style=='value_instead_of_label')
+        {
+            $values=[];
+            foreach($this->Items as $item)
+                $values[]=$item->OriginalValue!=''?$item->OriginalValue:$item->Value;
+            $value=implode(', ',$values);
+        }
+        else
+            $value=implode(', ',$this->Values);
+
         if($style=='similar')
         {
             /** @var WPFormAddressFieldSettings $field */
