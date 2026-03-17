@@ -7,6 +7,7 @@ use rednaoformpdfbuilder\htmlgenerator\generators\PDFGenerator;
 use rednaoformpdfbuilder\Integration\Adapters\WPForm\FormProcessor\WPFormFormProcessor;
 use rednaoformpdfbuilder\pr\PRLoader;
 use rednaoformpdfbuilder\Integration\Adapters\WPForm\Entry\Retriever\WPFormEntryRetriever;
+use rednaoformpdfbuilder\core\Managers\LogManager;
 
 class WPFormSubLoader extends Loader
 {
@@ -21,6 +22,7 @@ class WPFormSubLoader extends Loader
         $this->AddMenu('WPForm PDF Builder',$prefix.'_pdf_builder','pdfbuilder_manage_templates','','Pages/BuilderList.php');
         $this->AddMenu('Our WPForms Plugins',$prefix.'_additional_plugins','administrator','','Pages/AdditionalPlugins.php');
         \add_filter('wpforms_frontend_confirmation_message',array($this,'AddPDFLink'),10,2);
+        \add_filter('pdfbuilder_process_smart_tags', array($this, 'ProcessWPFormsSmartTags'), 10, 2);
         add_action( 'admin_notices', array($this,'NewPluginNotice') );
 
         if($this->IsPR())
@@ -162,6 +164,43 @@ class WPFormSubLoader extends Loader
         return $entry;
     }
 
+
+    public function ProcessWPFormsSmartTags($text, $retriever)
+    {
+        $formId = '';
+        $entryId = '';
+        $rawFields = null;
+
+        if (is_object($retriever->Raw)) {
+            $formId = isset($retriever->Raw->form_id) ? $retriever->Raw->form_id : '';
+            $entryId = isset($retriever->Raw->entry_id) ? $retriever->Raw->entry_id : '';
+            $rawFields = isset($retriever->Raw->fields) ? $retriever->Raw->fields : null;
+        } elseif (is_array($retriever->Raw)) {
+            $formId = isset($retriever->Raw['form_id']) ? $retriever->Raw['form_id'] : '';
+            $entryId = isset($retriever->Raw['entry_id']) ? $retriever->Raw['entry_id'] : '';
+            $rawFields = isset($retriever->Raw['fields']) ? $retriever->Raw['fields'] : null;
+        }
+
+        if (!$formId) {
+            return $text;
+        }
+
+        $form_data = wpforms()->form->get(intval($formId), ['content_only' => true]);
+        if (!$form_data) {
+            return $text;
+        }
+
+        $fields = [];
+        if (is_string($rawFields)) {
+            $fields = json_decode($rawFields, true) ?: [];
+        } elseif (is_array($rawFields)) {
+            $fields = $rawFields;
+        } elseif (is_object($rawFields)) {
+            $fields = json_decode(json_encode($rawFields), true) ?: [];
+        }
+
+        return apply_filters('wpforms_process_smart_tags', $text, $form_data, $fields, $entryId);
+    }
 
     public function AddPDFLink($message,$formData)
     {

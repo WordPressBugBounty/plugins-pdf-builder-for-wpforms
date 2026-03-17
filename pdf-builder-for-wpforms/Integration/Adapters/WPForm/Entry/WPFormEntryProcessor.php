@@ -596,9 +596,9 @@ class WPFormEntryProcessor extends EntryProcessorBase
                     $entryItems[] = (new CheckBoxEntryItem())->Initialize($currentField)->SetValue($value);
                     break;
                 case 'select':
-                    $value = $value['value'];
-                    $value = \explode("\n", $value);
-                    $entryItems[] = (new DropDownEntryItem())->Initialize($currentField)->SetValue($value);
+                    $selectValue = !empty($value['value_raw']) ? $value['value_raw'] : $value['value'];
+                    $selectValue = \explode("\n", $selectValue);
+                    $entryItems[] = (new DropDownEntryItem())->Initialize($currentField)->SetValue($selectValue);
                     break;
                 case 'payment-select':
                     if (!\is_array($value))
