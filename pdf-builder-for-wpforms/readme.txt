@@ -14,7 +14,8 @@ The first and only PDF drag and drop builder for WPForms.
 
 
 == Description ==
-https://www.youtube.com/watch?v=FEmQifmfNfo&feature=youtu.be
+https://youtu.be/kav4_cUy75A
+
 
 Design your own pdf in seconds using a drag and drop builder. No coding experience required.
 
