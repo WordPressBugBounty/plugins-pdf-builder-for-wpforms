@@ -208,26 +208,67 @@ class WPFormSubLoader extends Loader
         if(!isset($RNWPCreatedEntry['CreatedDocuments']))
             return $message;
 
-        if(\strpos($message,'[wpformpdflink]')===false)
+        $hasWpformPdfLink = \strpos($message,'[wpformpdflink]') !== false;
+        $hasBpdfLink = \strpos($message,'[bpdfbuilder_download_link') !== false;
+
+        if(!$hasWpformPdfLink && !$hasBpdfLink)
             return $message;
 
-        $links=array();
-        foreach($RNWPCreatedEntry['CreatedDocuments'] as $createdDocument)
+        // Process [wpformpdflink] - links to all created PDFs
+        if($hasWpformPdfLink)
         {
-            $data=array(
-              'entryid'=>$RNWPCreatedEntry['EntryId'],
-              'templateid'=>$createdDocument['TemplateId'],
-              'nonce'=>\wp_create_nonce($this->Prefix.'_'.$RNWPCreatedEntry['EntryId'].'_'.$createdDocument['TemplateId'])
-            );
-            $url=admin_url('admin-ajax.php').'?data='.\json_encode($data).'&action='.$this->Prefix.'_view_pdf';
-            $links[]='<a target="_blank" href="'.esc_attr($url).'">'.\esc_html($createdDocument['Name']).'.pdf</a>';
+            $links=array();
+            foreach($RNWPCreatedEntry['CreatedDocuments'] as $createdDocument)
+            {
+                $entryId=$RNWPCreatedEntry['EntryId'];
+                $templateId=$createdDocument['TemplateId'];
+                $nonce=\wp_create_nonce('view_'.$entryId.'_'.$templateId);
+                $url=admin_url('admin-ajax.php').'?action='.$this->Prefix.'_view_pdf'.'&nonce='.urlencode($nonce).'&templateid='.$templateId.'&entryid='.$entryId;
+                $links[]='<a target="_blank" href="'.esc_attr($url).'">'.\esc_html($createdDocument['Name']).'.pdf</a>';
+            }
+            $message=\str_replace('[wpformpdflink]',\implode($links),$message);
         }
 
-        $message=\str_replace('[wpformpdflink]',\implode($links),$message);
+        // Process [bpdfbuilder_download_link message="..." templateid="..."] - link to a specific template
+        if($hasBpdfLink)
+        {
+            $message = \preg_replace_callback(
+                '/\[bpdfbuilder_download_link([^\]]*)\]/',
+                function($matches) use ($RNWPCreatedEntry) {
+                    $atts = $matches[1];
+
+                    // Parse templateid attribute
+                    $targetTemplateId = '';
+                    if(\preg_match('/templateid\s*=\s*"([^"]*)"/', $atts, $m))
+                        $targetTemplateId = $m[1];
+
+                    // Parse message attribute
+                    $linkMessage = 'Download PDF';
+                    if(\preg_match('/message\s*=\s*"([^"]*)"/', $atts, $m))
+                        $linkMessage = $m[1];
+
+                    if($targetTemplateId === '')
+                        return '';
+
+                    // Find the matching template in created documents
+                    foreach($RNWPCreatedEntry['CreatedDocuments'] as $createdDocument)
+                    {
+                        if(strval($createdDocument['TemplateId']) === strval($targetTemplateId))
+                        {
+                            $entryId = $RNWPCreatedEntry['EntryId'];
+                            $nonce = \wp_create_nonce('view_'.$entryId.'_'.$targetTemplateId);
+                            $url = admin_url('admin-ajax.php').'?action='.$this->Prefix.'_view_pdf'.'&nonce='.urlencode($nonce).'&templateid='.$targetTemplateId.'&entryid='.$entryId;
+                            return '<a target="_blank" href="'.esc_attr($url).'">'.\esc_html($linkMessage).'</a>';
+                        }
+                    }
+
+                    return '';
+                },
+                $message
+            );
+        }
 
         return $message;
-
-
     }
 
     /**

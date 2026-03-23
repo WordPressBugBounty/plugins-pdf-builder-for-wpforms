@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edsev
 Tags: wpform, wpforms, forms, pdf, pdf builder
 Requires at least: 3.3
 Tested up to: 6.9.4
-Stable tag: 1.2.142
+Stable tag: 1.2.143
 License: GPLv3 or later
 Author URI: https://rednao.com/
 Plugin URI: https://rednao.com/
