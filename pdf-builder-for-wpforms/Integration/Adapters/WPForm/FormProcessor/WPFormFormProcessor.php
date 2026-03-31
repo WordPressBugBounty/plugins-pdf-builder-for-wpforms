@@ -26,6 +26,7 @@ use rednaoformpdfbuilder\Integration\Processors\Settings\Forms\Fields\FieldSetti
 use rednaoformpdfbuilder\Integration\Processors\Settings\Forms\Fields\RatingFieldSettings;
 use rednaoformpdfbuilder\Integration\Processors\Settings\Forms\Fields\TextFieldSettings;
 use rednaoformpdfbuilder\Integration\Processors\Settings\Forms\FormSettings;
+use rednaoformpdfbuilder\Utils\Sanitizer;
 use Svg\Tag\Text;
 
 class WPFormFormProcessor extends FormProcessorBase
@@ -117,6 +118,12 @@ class WPFormFormProcessor extends FormProcessorBase
                 case 'payment-select':
                 case 'likert_scale':
                     $settings=(new MultipleOptionsFieldSettings())->Initialize($field->id,$field->label,$field->type);
+
+                    if(Sanitizer::GetStringValueFromPath($field,['dynamic_choices'],'')!='')
+                    {
+                        $settings->AddAdditionalSettings('Dynamic',Sanitizer::GetStringValueFromPath($field,['dynamic_choices']));
+                        
+                    }
                     foreach($field->choices as $choice)
                     {
                         $settings->AddOption($choice->label,$choice->value);

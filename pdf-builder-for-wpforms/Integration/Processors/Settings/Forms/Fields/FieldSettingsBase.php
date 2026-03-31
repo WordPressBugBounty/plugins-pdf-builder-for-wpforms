@@ -16,6 +16,8 @@ abstract class FieldSettingsBase
     public $Type;
     public $SubType;
     public $UseInConditions=false;
+
+    public $AdditionalSettings=null;
     public function Initialize($FieldId,$Label,$SubType){
         $this->Id=$FieldId;
         $this->Label=$Label;
@@ -24,8 +26,23 @@ abstract class FieldSettingsBase
         return $this;
     }
 
+    public function AddAdditionalSettings($label,$value)
+    {
+        if($this->AdditionalSettings==null)
+            $this->AdditionalSettings=new stdClass();
+        $this->AdditionalSettings->$label=$value;
+    }
+
+    public function GetAdditionalSetting($label,$defaultValue=null)
+    {
+        if($this->AdditionalSettings==null)
+            return $defaultValue;
+        return $this->AdditionalSettings->$label;
+    }
+
     public function GetOptions(){
         $options=new stdClass();
+        
 
     }
 
@@ -76,6 +93,8 @@ abstract class FieldSettingsBase
         $this->Label=$options->Label;
         $this->Type=$options->Type;
         $this->SubType=$options->SubType;
+        if(isset($options->AdditionalSettings))
+            $this->AdditionalSettings=$options->AdditionalSettings;
     }
 
     public function SetStringProperty($propertyName,$options,$path,$defaultValue='')
