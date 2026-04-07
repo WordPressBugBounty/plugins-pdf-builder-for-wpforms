@@ -51,7 +51,7 @@ class DesignerAjax extends AjaxBase
             $this->SendSuccessMessage(array('folders'=>$folders));
         }catch(\Exception $ex)
         {
-            $this->SendErrorMessage(__('An error ocurred while loading the Google Drive folders, please check config. Error Detail:','rnpdfbuilder').$ex->getMessage());
+            $this->SendErrorMessage(__('An error ocurred while loading the Google Drive folders, please check config. Error Detail:','pdf-builder-for-wpforms').$ex->getMessage());
         }
 
         die();
@@ -60,7 +60,7 @@ class DesignerAjax extends AjaxBase
     public function ValidateGoogleAuthToken1(){
         if(!isset($_GET['client_id'])||!isset($_GET['client_secret']))
         {
-            echo __("Invalid client id or secret! please try again",'rnpdfbuilder');
+            echo __("Invalid client id or secret! please try again",'pdf-builder-for-wpforms');
             return;
         }
         $token=new PrinterToken();
@@ -99,7 +99,7 @@ class DesignerAjax extends AjaxBase
             $result = wp_remote_post('https://accounts.google.com/o/oauth2/token', $googleauth_request_options);
 
             if (is_wp_error($result)) {
-                echo __("Couldn't validate your credentials reason:",'rnpdfbuilder').$result->get_error_message();
+                echo __("Couldn't validate your credentials reason:",'pdf-builder-for-wpforms').$result->get_error_message();
             } else {
                 $json_values = json_decode($result['body'], true);
 
@@ -110,18 +110,18 @@ class DesignerAjax extends AjaxBase
 
                 } else {
                     Printer::DeleteToken();
-                    echo __('No refresh token was received from Google. This often means that you entered your client secret wrongly, or that you have not yet re-authenticated (below) since correcting it. Re-check it, then follow the link to authenticate again. Finally, if that does not work, create a new Google client ID/secret, and start again.','rnpdfbuilder');
+                    echo __('No refresh token was received from Google. This often means that you entered your client secret wrongly, or that you have not yet re-authenticated (below) since correcting it. Re-check it, then follow the link to authenticate again. Finally, if that does not work, create a new Google client ID/secret, and start again.','pdf-builder-for-wpforms');
                 }
             }
         } else {
-            echo __("Invalid credentials, please authenticate again",'rnpdfbuilder');
+            echo __("Invalid credentials, please authenticate again",'pdf-builder-for-wpforms');
         }
 
         die();
     }
 
     public function ValidateGoogleAuthToken3(){
-        echo __('<p>Authentication success!, you can now use your printers!.</p> <p>This screen will be closed automatically in 5 seconds</p>','rniotg');
+        echo __('<p>Authentication success!, you can now use your printers!.</p> <p>This screen will be closed automatically in 5 seconds</p>','pdf-builder-for-wpforms');
         echo '<script type="text/javascript">setTimeout(function(){window.close();},5000);</script>';
         die();
     }

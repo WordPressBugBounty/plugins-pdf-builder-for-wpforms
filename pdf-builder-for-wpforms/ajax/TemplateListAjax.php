@@ -105,7 +105,7 @@ class TemplateListAjax extends AjaxBase
     public function Export(){
         if(!isset($_GET['template_id'])||!\is_numeric($_GET['template_id']))
         {
-            echo __('Invalid request','rnpdfbuilder');
+            echo __('Invalid request','pdf-builder-for-wpforms');
             die();
         }
 

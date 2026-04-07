@@ -31,7 +31,8 @@ abstract class EntryProcessorBase
     public function MaybeUpdateEmailBody($message,$originalFormId,$originalEntryId,$originalFields=null)
     {
         $matches=null;
-        preg_match_all('/\\[bpdfbuilder_download_link([^\\]]*)\\]/',$message,$matches,PREG_SET_ORDER);
+        $decodedMessage=html_entity_decode($message);
+        preg_match_all('/\\[bpdfbuilder_download_link([^\\]]*)\\]/',$decodedMessage,$matches,PREG_SET_ORDER);
 
 
         if(count($matches)==0)
@@ -61,16 +62,23 @@ abstract class EntryProcessorBase
                 return $message;
         }
 
-        $links=[];
         foreach($matches as $currentMatch)
         {
+            $links=[];
             $attrs=shortcode_parse_atts($currentMatch[1]);
             if(!is_array($attrs))
                 $attrs=[];
 
             $templateId='';
-            if(isset($attrs['template_id']))
+            if(isset($attrs['templateid']))
+                $templateId=$attrs['templateid'];
+            else if(isset($attrs['template_id']))
                 $templateId=$attrs['template_id'];
+
+            $linkMessage='';
+            if(isset($attrs['message']))
+                $linkMessage=$attrs['message'];
+
             $templates=$formRepository->GetTemplatesForForm($formId);
             foreach($templates as $currentTemplate)
             {
@@ -81,11 +89,14 @@ abstract class EntryProcessorBase
 
                     if($link==null||$name==null)
                         continue;
-                    $links[]='<a href="'.$link.'">'.esc_html($name).'</a>';
+                    $displayText=$linkMessage!=''?$linkMessage:$name;
+                    $links[]='<a href="'.$link.'">'.esc_html($displayText).'</a>';
                 }
             }
 
-            $message=str_replace($currentMatch[0],implode(",",$links),$message);
+            $replacement=implode(",",$links);
+            $message=str_replace($currentMatch[0],$replacement,$message);
+            $message=str_replace(htmlspecialchars($currentMatch[0],ENT_QUOTES|ENT_HTML401),$replacement,$message);
 
         }
 
