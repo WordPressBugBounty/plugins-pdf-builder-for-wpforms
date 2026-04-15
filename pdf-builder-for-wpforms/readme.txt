@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edsev
 Tags: wpform, wpforms, forms, pdf, pdf builder
 Requires at least: 3.3
 Tested up to: 6.9.4
-Stable tag: 1.2.144
+Stable tag: 1.2.145
 License: GPLv3 or later
 Author URI: https://rednao.com/
 Plugin URI: https://rednao.com/
@@ -64,6 +64,7 @@ Show or hide any element of your pdf based on the values of the form. You can ev
 Not yet!
 
 == Change log ==
+* 1.2.145. Delete key works in the designer
 * 1.2.114 Added support to repeater fields
 * 1.6.70. Fixed Text Domain
 * 1.6.69. Fixed Translation issue
